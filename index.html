@@ -1,104 +1,172 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Weather App</title>
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <link rel="stylesheet" href="./src/output.css">
-</head>
-<body class="min-h-screen bg-[url('https://i.pinimg.com/1200x/72/4c/5c/724c5c646e2f685a527f1ca93524701c.jpg')] bg-cover bg-center text-white ove">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="./src/output.css" />
+  </head>
+  <body
+    class="min-h-screen bg-[url('https://i.pinimg.com/1200x/72/4c/5c/724c5c646e2f685a527f1ca93524701c.jpg')] bg-cover bg-center text-white"
+  >
+    <div class="relative z-10 min-h-screen bg-black/40 px-6 py-10">
+      <!-- Header -->
+      <header class="text-center mb-12">
+        <h1 class="text-5xl font-semibold">
+          Sky<span class="text-black">Cast</span>
+        </h1>
+        <p class="text-white/80 mt-3">
+          Your day, guided by reliable weather insights.
+        </p>
 
-   <div class="min-h-screen bg-black/40 px-6 py-10">
+        <!-- Search -->
+        <div class="mt-6 flex justify-center gap-3 items-start">
+          <!-- INPUT + DROPDOWN -->
+          <div class="relative w-80">
+            <input
+              type="text"
+              id="Scity"
+              placeholder="Search for any city worldwide..."
+              class="w-full px-4 py-3 rounded-xl bg-white/20 placeholder-white/70 outline-none z-20"
+            />
 
-    <!-- Header -->
-    <header class="text-center mb-12">
-      <h1 class="text-5xl font-semibold">
-        Sky<span class="text-black">Cast</span>
-      </h1>
-      <p class="text-white/80 mt-3">
-        Your day, guided by reliable weather insights.
-      </p>
+            <!-- DROPDOWN -->
+            <div
+              id="cityDropdown"
+              class="absolute top-full left-0 mt-2 w-full bg-white/20 backdrop-blur-xl rounded-xl shadow-lg hidden z-50 p-3 space-y-3"
+            ></div>
+          </div>
 
-      <!-- Search -->
-      <div class="mt-6 flex justify-center gap-3">
-        <input
-          type="text"
-          placeholder="Search for any city worldwide..."
-          class="w-80 px-4 py-3 rounded-xl bg-white/20 placeholder-white/70 outline-none"
-        />
-        <button class="px-4 py-3 rounded-xl bg-white hover:bg-black">
-          🔍
-        </button>
+          <!-- SEARCH BUTTON -->
+          <div class="h-[52px] w-[52px]">
+            <button
+              id="searchBtn"
+              class="flex items-center justify-center rounded-xl bg-white hover:bg-black text-black hover:text-white transition shrink-0"
+            >
+              🔍
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <!-- Main Weather Card -->
+        <section
+          class="lg:col-span-2 bg-glass backdrop-blur-xl rounded-2xl p-6"
+        >
+          <!-- Location -->
+          <div class="flex justify-between text-sm text-white/80">
+            <span class="city">📍 </span>
+            <span class="date"></span>
+          </div>
+
+          <!-- Temperature -->
+          <div class="mt-8 flex items-center gap-4">
+            <img
+              src=""
+              id="weatherIcon"
+              alt="icon"
+              class="w-24 h-24 object-contain"
+            />
+
+            <span class="temp text-6xl font-semibold">--</span>
+
+            <!-- Toggle -->
+            <div class="flex gap-2 text-sm">
+              <button
+                id="celsiusBtn"
+                class="px-3 py-1 rounded-lg bg-white text-black"
+              >
+                °C
+              </button>
+              <button
+                id="fahrenheitBtn"
+                class="px-3 py-1 rounded-lg bg-white/20"
+              >
+                °F
+              </button>
+            </div>
+          </div>
+
+          <p class="condition text-lg text-white/80 mt-2">Clear Sky</p>
+
+          <!-- Error -->
+          <p
+            id="errorBox"
+            class="hidden mt-3 text-center px-4 py-2 rounded-xl"
+          ></p>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
+            <div class="stat-card">
+              High<br /><strong class="high">10</strong>
+            </div>
+            <div class="stat-card">
+              Humidity <br /><strong class="humidity">44%</strong>
+            </div>
+            <div class="stat-card">
+              Visibility <br /><strong class="visibility">10 km</strong>
+            </div>
+            <div class="stat-card">
+              Wind Speed <br /><strong class="wind">2.3 m/s</strong>
+            </div>
+            <div class="stat-card">
+              Feels Like <br /><strong class="feellike">95°C</strong>
+            </div>
+          </div>
+
+          <!-- Sunrise / Sunset -->
+          <div class="flex gap-4 mt-8">
+            <div class="flex-1 bg-white/20 rounded-xl p-4 text-center">
+              🌅 Sunrise <br /><strong class="sunrise">07:03 AM</strong>
+            </div>
+            <div class="flex-1 bg-white/20 rounded-xl p-4 text-center">
+              🌇 Sunset <br /><strong class="sunset">07:47 PM</strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- Forecast -->
+        <aside class="bg-glass max-w-12 backdrop-blur-sm rounded-2xl p-6">
+          <section class="w-full mt-12">
+            <h2 class="text-xl mb-4 font-semibold text-center">
+              5-Day Forecast
+            </h2>
+
+            <div
+              id="forecast"
+              class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
+            ></div>
+          </section>
+        </aside>
+      </main>
+      <div
+        id="tempAlert"
+        class="hidden mt-4 p-4 rounded-xl flex items-center gap-3 animate-pulse"
+      >
+        <span id="alertIcon" class="text-2xl"></span>
+        <div>
+          <h4 id="alertTitle" class="font-bold text-sm"></h4>
+          <p id="alertMessage" class="text-xs opacity-90"></p>
+        </div>
       </div>
-    </header>
+    </div>
 
-    <!-- Content -->
-    <main class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <!-- Reusable Tailwind Components -->
+    <style>
+      .stat-card {
+        @apply bg-white/20 rounded-xl p-4 text-sm;
+      }
+      .forecast-item {
+        @apply flex justify-between py-3 border-b  border-white/20 last:border-none;
+      }
 
-      <!-- Main Weather Card -->
-      <section class="lg:col-span-2 bg-glass backdrop-blur-xl rounded-2xl p-6">
+      .dropdown-item {
+        @apply px-4 py-2 cursor-pointer text-white hover:bg-white/30;
+      }
+    </style>
 
-        <!-- Location -->
-        <div class="flex justify-between text-sm text-white/80">
-          <span>📍 United Arab Emirates</span>
-          <span>Wed, Aug 27 • 08:30 AM</span>
-        </div>
-
-        <!-- Temperature -->
-        <div class="mt-8">
-          <h2 class="text-6xl font-semibold">
-            92°<span class="text-3xl">F</span>
-          </h2>
-          <p class="text-lg text-white/80 mt-1">Clear Sky</p>
-        </div>
-
-        <!-- Stats -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-          <div class="stat-card">Visibility <br><strong>10 km</strong></div>
-          <div class="stat-card">Wind Speed <br><strong>2.3 m/s</strong></div>
-          <div class="stat-card">Humidity <br><strong>44%</strong></div>
-          <div class="stat-card">Pressure <br><strong>998 hPa</strong></div>
-          <div class="stat-card">Feels Like <br><strong>95°F</strong></div>
-        </div>
-
-        <!-- Sunrise / Sunset -->
-        <div class="flex gap-4 mt-8">
-          <div class="flex-1 bg-white/20 rounded-xl p-4 text-center">
-            🌅 Sunrise <br><strong>07:03 AM</strong>
-          </div>
-          <div class="flex-1 bg-white/20 rounded-xl p-4 text-center">
-            🌇 Sunset <br><strong>07:47 PM</strong>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- Forecast -->
-      <aside class="bg-glass bg-glass backdrop-blur-sm rounded-2xl p-6">
-        <h3 class="text-xl font-semibold mb-6">7 Day Forecast</h3>
-
-        <div class="forecast-item bg-white/20 rounded-2xl p-3 mt-1">☀ Today <span>92°</span></div>
-        <div class="forecast-item bg-white/20 rounded-2xl p-3 mt-1">☁ Thu, Aug 28 <span>91°</span></div>
-        <div class="forecast-item bg-white/20 rounded-2xl p-3 mt-1">☁ Fri, Aug 29 <span>94°</span></div>
-        <div class="forecast-item bg-white/20 rounded-2xl p-3 mt-1">☀ Sat, Aug 30 <span>91°</span></div>
-        <div class="forecast-item bg-white/20 rounded-2xl p-3 mt-1">☁ Sun, Aug 31 <span>92°</span></div>
-        <div class="forecast-item bg-white/20 rounded-2xl p-3 mt-1">☁ Mon, Aug 31 <span>92°</span></div>
-        <div class="forecast-item bg-white/20 rounded-2xl p-3 mt-1">☁ Tue, Aug 31 <span>92°</span></div>
-      </aside>
-
-    </main>
-  </div>
-
-  <!-- Reusable Tailwind Components -->
-  <style>
-    .stat-card {
-      @apply bg-white/20 rounded-xl p-4 text-sm;
-    }
-    .forecast-item {
-      @apply flex justify-between py-3 border-b border-white/20 last:border-none;
-    }
-  </style>
-   <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
