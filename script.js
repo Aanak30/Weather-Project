@@ -72,6 +72,63 @@ async function getWeatherByCity(city) {
 
 }
 
+//Update UI Function
+function updateUI(data) {
+
+  const currentTemp = data.main.temp;
+  const mainCondition = data.weather[0].main;
+
+
+  // Trigger the alert check
+  const weatherMain = data.weather[0].main; // "Rain", "Clear"
+  if (backgroundMap[weatherMain]) {
+    document.body.style.backgroundImage = `url('${backgroundMap[weatherMain]}')`;
+  }
+  
+  document.querySelector(".city").textContent =           
+  `${data.name}, ${data.sys.country}`;
+  
+  document.querySelector(".high").textContent =
+  `${Math.round(data.main.temp_max)}°`;;
+  
+  
+  const visibilityKm = (data.visibility / 1000).toFixed(1);
+  document.querySelector(".visibility").textContent =
+  `${visibilityKm} km`;
+  
+  
+    document.querySelector(".humidity").textContent =
+    `${data.main.humidity}%`;
+
+    document.querySelector(".wind").textContent =
+    `${Math.round(data.wind.speed)}km/h`;
+    
+    const srt= new Date(data.sys.sunrise * 1000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    document.querySelector(".sunrise").textContent =
+    `${srt}`;
+    
+    const sst= new Date((data.sys.sunset) * 1000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    document.querySelector(".sunset").textContent =
+      `${sst}`;
+      
+      currentTempC = data.main.temp;
+      document.querySelector(".temp").textContent =
+      `${Math.round(currentTempC)}°C`;
+
+    document.querySelector(".condition").textContent =
+    data.weather[0].description;
+    
+    document.querySelector(".feellike").textContent = `${Math.round(data.main.feels_like)}°C`;
+
+    setWeatherIcon(data.weather[0].icon);
+    checkExtremeWeather(currentTemp, mainCondition);
+
+      // Hide error message after successful data fetch
+    document.getElementById("errorBox").classList.add("hidden");
+
+    
+}
+
 //Set WeatherIcon Function
 function setWeatherIcon(iconCode) {
   document.getElementById("weatherIcon").src = 
@@ -262,7 +319,7 @@ cityInput.addEventListener("focus", showDropdown);
 cityInput.addEventListener("input", showDropdown);
 showDropdown(); 
 
-//Background
+//Temperature alert
 function checkExtremeWeather(temp, condition) {
   const alertBox = document.getElementById("tempAlert");
   const alertIcon = document.getElementById("alertIcon");
