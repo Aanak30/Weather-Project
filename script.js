@@ -151,3 +151,43 @@ const card = `
     forecastContainer.innerHTML += card;
   });
 }
+
+//function get weather by current location
+function getWeatherByCurrentLocation() {                     /// to get current location wheather insightes
+  if (!navigator.geolocation) {
+    showError("Geolocation is not supported by your browser");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      getWeatherByCoords(lat, lon);
+    },
+    () => {
+      showError("Location access denied");
+    }
+  );
+}
+
+//get weather by corrds function
+async function getWeatherByCoords(lat, lon) {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+    );
+
+    if (!response.ok) throw new Error("Location weather failed");
+
+    const data = await response.json();
+
+    updateUI(data);
+
+    get5DayForecast(lat, lon);
+
+  } catch (error) {
+    showError(error.message);
+  }
+}
