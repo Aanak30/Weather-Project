@@ -207,3 +207,57 @@ document.getElementById("fahrenheitBtn").addEventListener("click", () => {
       `${Math.round(f)}°F`;
   }
 });
+
+//Dropdown
+
+/* SAVE CITY TO SESSION STORAGE */
+function saveCity(city) {
+  let cities = JSON.parse(sessionStorage.getItem("cities")) || [];
+
+  city = city.toLowerCase();
+
+  // remove duplicates
+  cities = cities.filter(c => c !== city);
+
+  // add latest on top
+  cities.unshift(city);
+
+  // limit to 5 cities
+  if (cities.length > 5) cities.length = 5;
+
+  sessionStorage.setItem("cities", JSON.stringify(cities));
+}
+
+function showDropdown() {
+  const cities = JSON.parse(sessionStorage.getItem("cities")) || [];
+  dropdown.innerHTML = "";
+
+  if (cities.length === 0 || cityInput.value.trim() === "") {
+    dropdown.classList.add("hidden");
+    return;
+  }
+
+  cities.forEach(city => {
+    const div = document.createElement("div");
+    div.textContent = city;
+    div.className =
+      "px-4 py-2 text-center rounded-lg cursor-pointer bg-white/20 hover:bg-white/30 transition";
+
+    div.addEventListener("click", (e) => {
+      e.stopPropagation();
+      cityInput.value = city;
+      dropdown.classList.add("hidden");
+      getWeatherByCity(city);
+    });
+
+    dropdown.appendChild(div);
+  });
+
+  dropdown.classList.remove("hidden");
+}
+
+
+/* EVENTS */
+cityInput.addEventListener("focus", showDropdown);
+cityInput.addEventListener("input", showDropdown);
+showDropdown(); 
