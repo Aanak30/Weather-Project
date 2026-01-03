@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+  body {
+  transition: background-image 0.8s ease-in-out;
+  background-attachment: fixed; /* Keeps background still while scrolling */
+}
