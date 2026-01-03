@@ -191,3 +191,19 @@ async function getWeatherByCoords(lat, lon) {
     showError(error.message);
   }
 }
+
+//toggle button
+document.getElementById("celsiusBtn").addEventListener("click", () => {
+  if (currentTempC !== null) {
+    document.querySelector(".temp").textContent =
+      `${Math.round(currentTempC)}°C`;
+  }
+});
+
+document.getElementById("fahrenheitBtn").addEventListener("click", () => {
+  if (currentTempC !== null) {
+    const f = (currentTempC * 9) / 5 + 32;
+    document.querySelector(".temp").textContent =
+      `${Math.round(f)}°F`;
+  }
+});
