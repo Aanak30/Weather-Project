@@ -89,3 +89,65 @@ function showError(message) {
 
   errorBox.classList.remove("hidden");
 }  
+
+// Get 5 day Forecast Function
+async function get5DayForecast(lat, lon) {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+    );
+
+    if (!response.ok) throw new Error("Forecast not available");
+
+    const data = await response.json();
+
+    // CALL CORRECT FUNCTION
+    displayFiveDayForecast(data.list);
+
+  } catch (error) {
+    showError(error.message);
+  }
+}
+
+function displayFiveDayForecast(forecastList) {                              //creating list for forcast
+  const forecastContainer = document.getElementById("forecast");
+  forecastContainer.innerHTML = "";
+
+  const dailyForecast = forecastList.filter(item =>
+    item.dt_txt.includes("12:00:00")
+  );
+
+  
+
+  dailyForecast.forEach(day => {
+    const date = new Date(day.dt_txt).toDateString();
+    const temp = Math.round(day.main.temp);
+    const wind = day.wind.speed;
+    const humidity = day.main.humidity;
+    const icon = day.weather[0].icon;
+
+const card = `
+  <div class="bg-white/20 backdrop-blur-xl rounded-2xl 
+              text-center text-white shadow-lg
+              p-4 h-auto overflow-hidden">
+
+    <p class="text-sm font-semibold mb-2">${date}</p>
+
+    <img 
+      src="https://openweathermap.org/img/wn/${icon}@2x.png" 
+      class="mx-auto w-12 h-12"
+    />
+
+    <p class="text-m font-bold  mt-2">${temp}°C</p>
+
+    <div class="flex justify-center gap-1 text-xs mt-2 text-white/60">
+      <span class="whitespace-nowrap">💨 ${wind.toFixed(1)} km/h</span>
+      <span class="whitespace-nowrap">💧 ${humidity}%</span>
+    </div>
+
+  </div>
+`;
+
+    forecastContainer.innerHTML += card;
+  });
+}
