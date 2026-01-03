@@ -77,3 +77,15 @@ function setWeatherIcon(iconCode) {
   document.getElementById("weatherIcon").src = 
     `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
   }
+
+// function to show error 
+function showError(message) {
+  const errorBox = document.getElementById("errorBox");
+
+  errorBox.textContent = message;
+
+  errorBox.className =
+    "mt-3 text-center px-4 py-2 rounded-xl bg-red-500/30 text-red-200 border border-red-400";
+
+  errorBox.classList.remove("hidden");
+}  
