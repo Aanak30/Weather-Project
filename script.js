@@ -261,3 +261,56 @@ function showDropdown() {
 cityInput.addEventListener("focus", showDropdown);
 cityInput.addEventListener("input", showDropdown);
 showDropdown(); 
+
+//Background
+function checkExtremeWeather(temp, condition) {
+  const alertBox = document.getElementById("tempAlert");
+  const alertIcon = document.getElementById("alertIcon");
+  const alertTitle = document.getElementById("alertTitle");
+  const alertMessage = document.getElementById("alertMessage");
+
+  let alertActive = false;
+  let config = { title: "", msg: "", icon: "", color: "" };
+
+  // 1. Extreme Heat Alert 
+  if (temp >= 35) {
+    config = {
+      title: "EXTREME HEAT WARNING",
+      msg: "Stay hydrated and avoid direct sunlight. High risk of heatstroke.",
+      icon: "🥵",
+      color: "bg-orange-600/80"
+    };
+    alertActive = true;
+  } 
+  // 2. Freezing Alert 
+  else if (temp <= 5) {
+    config = {
+      title: "FREEZING CONDITIONS",
+      msg: "Ice on roads possible. Dress in warm layers.",
+      icon: "🥶",
+      color: "bg-blue-600/80"
+    };
+    alertActive = true;
+  }
+  // 3. Storm/Thunderstorm Alert
+  else if (condition.toLowerCase().includes("thunderstorm")) {
+    config = {
+      title: "SEVERE STORM ALERT",
+      msg: "Lightning detected in the area. Stay indoors.",
+      icon: "⚡",
+      color: "bg-purple-700/80"
+    };
+    alertActive = true;
+  }
+
+  // UI Update
+  if (alertActive) {
+    alertBox.className = `mt-4 p-4 rounded-xl flex items-center gap-3 animate-pulse text-white ${config.color}`;
+    alertIcon.textContent = config.icon;
+    alertTitle.textContent = config.title;
+    alertMessage.textContent = config.msg;
+    alertBox.classList.remove("hidden");
+  } else {
+    alertBox.classList.add("hidden");
+  }
+}
