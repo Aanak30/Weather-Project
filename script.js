@@ -48,4 +48,26 @@ document.addEventListener("click", (e) => {
   }
 });
 
+//weather by city
+async function getWeatherByCity(city) {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+    );
 
+    if (!response.ok) throw new Error("City not found");
+
+    const data = await response.json();
+
+    updateUI(data);
+    saveCity(city);  // save city into my storage
+
+    // 🔥 Extract coords ONCE
+    const { lat, lon } = data.coord;
+    get5DayForecast(lat, lon);
+
+  } catch (error) {
+    showError(error.message);
+  }
+
+}
